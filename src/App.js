@@ -1,24 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+// import ClassForm from "./ClassForm";
+import FunctionForm from "./FunctionForm";
+import data from "./data";
+
+const StudentsContainer = (props) => {
+  let arrayOfComponents = props.students.map((studentObj) => (
+    <Student key={studentObj.id} student={studentObj} />
+  ));
+  return <>{arrayOfComponents}</>;
+};
+// export default studentsContainer;
+
+const Student = (props) => {
+  let { name, grade } = props.student;
+  return (
+    <div className="container">
+      <p>
+        <span>{name} is in grade: </span>
+        {grade}
+      </p>
+    </div>
+  );
+};
 
 function App() {
+  const [students, setStudents] = useState(data);
+  const addStudentFunction = (info) => {
+    console.log(info);
+    let newId = students.length + 1;
+    let newStudent = { ...info, id: newId };
+    let newStudents = [...students, newStudent];
+    console.log(newStudent);
+    setStudents(newStudents);
+  }; //send a function definition
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <Joke /> */}
+      {/* <ClassForm addStudent={addStudentFunction} /> */}
+      <StudentsContainer students={students} />
+      <FunctionForm addStudent={addStudentFunction} />
     </div>
   );
 }
